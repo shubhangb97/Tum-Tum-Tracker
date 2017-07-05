@@ -2,8 +2,11 @@ package in.ac.iitb.gymkhana.tumtumtracker;
 
 import android.Manifest;
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -37,7 +40,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         getSupportActionBar().setTitle(R.string.app_name);
+        NfcManager manager = (NfcManager) getSystemService(Context.NFC_SERVICE);
+        NfcAdapter adapter = manager.getDefaultAdapter();
+        if (adapter != null && adapter.isEnabled()) {
 
+            Toast.makeText(getApplicationContext(), "NFC is there",
+                    Toast.LENGTH_LONG).show();
+        }else{
+
+            Toast.makeText(getApplicationContext(), "NFC is not there",
+                    Toast.LENGTH_LONG).show();//Your device doesn't support NFC
+        }
     }
     public void zoomCurrent()
     {
